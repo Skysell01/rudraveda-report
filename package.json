@@ -1,0 +1,31 @@
+{
+  "name": "rudraveda-astrology-report-generator",
+  "version": "1.0.0",
+  "description": "Production-ready No-DB Astrology Report Generation Web Application",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "setup": "npm run setup:server && npm run setup:client",
+    "setup:server": "cd server && npm install",
+    "setup:client": "cd client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "build": "npm run build:server && npm run build:client",
+    "start": "cd server && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "astrology",
+    "prokerala",
+    "claude-ai",
+    "puppeteer",
+    "pdf-generator",
+    "vedic-astrology"
+  ],
+  "author": "Rudraveda Team",
+  "license": "MIT"
+}
