@@ -1,7 +1,9 @@
+/// <reference types="vite/client" />
 import axios from 'axios';
 import { GenerateReportRequest, JobProgressResponse, LocationInput, SystemHealth } from '../types';
 
-const API_BASE = '/api';
+const rawBase = (import.meta as any).env?.VITE_API_BASE_URL || '';
+const API_BASE = rawBase ? `${rawBase.replace(/\/$/, '')}/api` : '/api';
 
 export async function fetchLocations(query: string): Promise<LocationInput[]> {
   const response = await axios.get<LocationInput[]>(`${API_BASE}/location/search`, {

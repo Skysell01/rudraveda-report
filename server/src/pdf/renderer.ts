@@ -32,11 +32,22 @@ export class PdfRendererEngine {
 
     let browser: Browser | null = null;
     try {
-      browser = await puppeteer.launch({
+      const launchOptions: any = {
         headless: true,
-        executablePath,
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-      });
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process'
+        ]
+      };
+      if (executablePath) {
+        launchOptions.executablePath = executablePath;
+      }
+      browser = await puppeteer.launch(launchOptions);
 
       const page = await browser.newPage();
       await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 30000 });
