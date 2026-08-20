@@ -78,10 +78,12 @@ export class PdfRendererEngine {
       const pdfBuffer = Buffer.from(pdfUint8Array);
 
       // Validate %PDF- signature and calculate page count
-      const { isValid, pageCount } = validatePdfDocument(pdfBuffer);
-      if (!isValid) {
-        throw new Error('Generated PDF buffer failed binary validation check');
+      const check = validatePdfDocument(pdfBuffer, 1);
+      logger.info(`VALIDATE_PDF_CHECK: isValid=${check.isValid}, pageCount=${check.pageCount}, status=${check.status}, details=${check.details}`);
+      if (!check.isValid) {
+        throw new Error(`Generated PDF buffer failed binary validation check: ${check.details}`);
       }
+      const pageCount = check.pageCount;
 
       const fileName = `${customer.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${reportType}_report.pdf`;
       logger.info(`Successfully generated A4 PDF (${pageCount} pages, ${pdfBuffer.length} bytes) for ${customer.name}`);

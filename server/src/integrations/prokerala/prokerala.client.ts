@@ -60,7 +60,7 @@ export class ProkeralaClient {
   }
 
   public async fetchKundli(datetime: string, coordinates: string): Promise<any> {
-    return this.fetchEndpoint('/kundli', { datetime, coordinates });
+    return this.fetchEndpoint('/kundli', { datetime, coordinates, ayanamsa: 1 });
   }
 
   public async fetchPanchang(datetime: string, coordinates: string): Promise<any> {

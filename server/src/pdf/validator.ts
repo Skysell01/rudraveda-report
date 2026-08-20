@@ -184,7 +184,7 @@ export class PdfValidatorEngine {
 
 export const pdfValidatorEngine = new PdfValidatorEngine();
 
-export function validatePdfDocument(buffer: Buffer, minExpectedPages = 25): { isValid: boolean; pageCount: number; status: PdfValidationStatus; details: string } {
+export function validatePdfDocument(buffer: Buffer, minExpectedPages = 1): { isValid: boolean; pageCount: number; status: PdfValidationStatus; details: string } {
   if (!buffer || buffer.length < 5000) {
     return { isValid: false, pageCount: 0, status: 'INVALID_RENDER', details: 'PDF buffer too small' };
   }
@@ -198,8 +198,8 @@ export function validatePdfDocument(buffer: Buffer, minExpectedPages = 25): { is
   const matches = bufferStr.match(/\/Type\s*\/Page\b/g);
   const pageCount = matches ? matches.length : 1;
 
-  if (pageCount < 25) {
-    return { isValid: false, pageCount, status: 'NEEDS_EXPANSION', details: `Page count (${pageCount}) < 25 minimum. Status: NEEDS_EXPANSION.` };
+  if (pageCount < minExpectedPages) {
+    return { isValid: false, pageCount, status: 'NEEDS_EXPANSION', details: `Page count (${pageCount}) < ${minExpectedPages} minimum. Status: NEEDS_EXPANSION.` };
   }
 
   if (pageCount > 50) {
